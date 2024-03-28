@@ -1,0 +1,27 @@
+---
+- name: Install Portainer using Docker
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Install Docker and Docker Compose
+      apt:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - docker.io
+        - docker-compose
+
+    - name: Set up Portainer container
+      docker_container:
+        name: portainer
+        image: portainer/portainer-ce
+        restart_policy: always
+        published_ports:
+          - "9000:9000"
+        volumes:
+          - /var/run/docker.sock:/var/run/docker.sock
+          - portainer_data:/data
+
+volumes:
+  portainer_data:
