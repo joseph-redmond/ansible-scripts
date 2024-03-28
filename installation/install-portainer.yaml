@@ -4,7 +4,7 @@
   become: yes
 
   tasks:
-       - name: Set up Portainer container
+    - name: Set up Portainer container
       docker_container:
         name: portainer
         image: portainer/portainer-ce
